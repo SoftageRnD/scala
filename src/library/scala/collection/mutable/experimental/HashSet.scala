@@ -1,4 +1,4 @@
-package experimental.scala.collection.mutable
+package scala.collection.mutable.experimental
 
 import scala.collection.generic.{MutableSetFactory, CanBuildFrom}
 import scala.collection.{TraversableOnce, mutable, immutable}
