@@ -1,5 +1,4 @@
 import com.google.caliper.Benchmark;
-import org.mikesokolov.scala.collection.mutable.NewHashSet;
 
 import java.util.*;
 
@@ -19,7 +18,7 @@ public class HashSetBenchmark extends Benchmark {
 
     public scala.collection.mutable.Set scalaSet;
 
-    public NewHashSet newHashSet;
+    public scala.collection.mutable.experimental.HashSet newHashSet;
 
     public final List<Object> queries = new ArrayList<Object>();
 
@@ -37,7 +36,7 @@ public class HashSetBenchmark extends Benchmark {
 
     public void setUpScala(int containsPerRep) {
         scalaSet = new scala.collection.mutable.HashSet();
-        newHashSet = new NewHashSet();
+        newHashSet = new scala.collection.mutable.experimental.HashSet();
 
         for (int i = 0; i < containsPerRep; i++) {
             Integer I = new Integer(i);
