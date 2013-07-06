@@ -20,16 +20,38 @@ class HashSet[A]
 
   private def resizeTable(newTableSize: Int) {
     val newTable = new Array[Any](newTableSize)
-    foreach(putIntoTable(newTable))
+    foreach(putIntoTableWithoutCheck(newTable))
     table = newTable
     threshold = calculateThreshold()
   }
 
-  private def putIntoTable(table: Array[Any])(elem: A) {
+  /**
+   *
+   * @return if the same element already existed
+   */
+  private def putIntoTable(table: Array[Any])(elem: A): Boolean = {
+    val index = getIndex(table.length)(elem)
+    table(index) match {
+      case null => {
+        table.update(index, elem)
+        false
+      }
+      case bucket: Bucket => bucket.add(elem)
+      case value => {
+        table.update(index, new Bucket(value, elem))
+        value == elem
+      }
+    }
+  }
+
+  /**
+   * Previously existed elements replaced without any checks
+   */
+  private def putIntoTableWithoutCheck(table: Array[Any])(elem: A) {
     val index = getIndex(table.length)(elem)
     table(index) match {
       case null => table.update(index, elem)
-      case bucket: Bucket => bucket.add(elem)
+      case bucket: Bucket => bucket.addWithoutCheck(elem)
       case value => table.update(index, new Bucket(value, elem))
     }
   }
@@ -49,10 +71,11 @@ class HashSet[A]
   }
 
   override def +=(elem: A): this.type = {
-    collectionSize += 1
-    if (collectionSize > threshold)
+    val expectedCollectionSize = collectionSize + 1
+    if (expectedCollectionSize > threshold)
       resizeTable(table.length * 2)
-    putIntoTable(table)(elem)
+    if (!putIntoTable(table)(elem))
+      collectionSize = expectedCollectionSize
     this
   }
 
@@ -147,9 +170,17 @@ class HashSet[A]
 
     private var set: Set[A] = immutable.Set(firstElem.asInstanceOf[A], secondElem.asInstanceOf[A])
 
-    def add(elem: A) {
-      if (!set.contains(elem))
-        set = set + elem
+    /**
+     * @return if the same element already existed
+     */
+    def add(elem: A): Boolean = {
+      val elementAlreadyExisted = set.contains(elem)
+      set = set + elem
+      elementAlreadyExisted
+    }
+
+    def addWithoutCheck(elem: A) {
+      set = set + elem
     }
 
     def contains(elem: A): Boolean = set.contains(elem)
