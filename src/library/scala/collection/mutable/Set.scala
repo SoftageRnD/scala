@@ -39,7 +39,7 @@ trait Set[A] extends Iterable[A]
  */
 object Set extends MutableSetFactory[Set] {
   implicit def canBuildFrom[A]: CanBuildFrom[Coll, A, Set[A]] = setCanBuildFrom[A]
-  override def empty[A]: Set[A] = HashSet.empty[A]
+  override def empty[A]: Set[A] = experimental.HashSet.empty[A]
 }
 
 /** Explicit instantiation of the `Set` trait to reduce class file size in subclasses. */
