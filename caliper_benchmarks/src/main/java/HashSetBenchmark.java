@@ -23,7 +23,7 @@ public class HashSetBenchmark extends Benchmark {
 
     public scala.collection.mutable.experimental.HashSet newHashSet;
 
-    public final List<Object> control = new ArrayList<Object>();
+    public final List<HashObject> control = new ArrayList<HashObject>();
 
     public void setUp(int containsPerRep, int collisionPercents, int deep) {
         if (collisionPercents > 100 || collisionPercents < 0) {
@@ -66,7 +66,7 @@ public class HashSetBenchmark extends Benchmark {
 
         //заполняем одинаковыми уникальными объектами
         for (Integer i = 0; i < uniqueCount; i++) {
-            Object obj = new HashObject(i);
+            HashObject obj = new HashObject(i);
             javaSet.add(obj);
             scalaSet.add(obj);
             newHashSet.add(obj);
@@ -76,7 +76,7 @@ public class HashSetBenchmark extends Benchmark {
 
         //дозаполняем объектами с  повторяющимися хэшкодами
         for (int times = 0; times < unUniqueCount; times++) {
-            Object obj = new HashObject(times % (unUniqueCount / (deep + 1)) + uniqueCount);
+            HashObject obj = new HashObject(times % (unUniqueCount / (deep + 1)) + uniqueCount);
             javaSet.add(obj);
             scalaSet.add(obj);
             newHashSet.add(obj);
