@@ -1,10 +1,4 @@
-import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.monitoring.runtime.instrumentation.AllocationRecorder;
-
-import java.util.*;
-
-import static scala.collection.JavaConversions.*;
 
 
 public class ContainsHashSetBenchmark extends HashSetBenchmark {
@@ -25,7 +19,7 @@ public class ContainsHashSetBenchmark extends HashSetBenchmark {
     public void timeContains(int reps) {
         for (int i = 0; i < reps; i++) {
             for (int j = 0; j < 100; j++) {
-                javaSet.contains(queries.get(j));
+                javaSet.contains(control.get(j));
             }
         }
     }
@@ -33,7 +27,7 @@ public class ContainsHashSetBenchmark extends HashSetBenchmark {
     public void timeContainsScala(int reps) {
         for (int i = 0; i < reps; i++) {
             for (int j = 0; j < 100; j++) {
-                scalaSet.contains(queries.get(j));
+                scalaSet.contains(control.get(j));
             }
         }
     }
@@ -41,7 +35,7 @@ public class ContainsHashSetBenchmark extends HashSetBenchmark {
     public void timeContainsNewHashSetScala(int reps) {
         for (int i = 0; i < reps; i++) {
             for (int j = 0; j < 100; j++) {
-                newHashSet.contains(queries.get(j));
+                newHashSet.contains(control.get(j));
             }
         }
     }

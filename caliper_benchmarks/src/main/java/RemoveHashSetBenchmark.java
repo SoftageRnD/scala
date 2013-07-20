@@ -26,7 +26,7 @@ public class RemoveHashSetBenchmark extends HashSetBenchmark {
     public void timeRemove(int reps) {
         for (int i = 0; i < reps; i++) {
             for (int j = 0; j < 100; j++) {
-                javaSet.remove(queries.get(j));
+                javaSet.remove(control.get(j));
             }
         }
     }
@@ -34,7 +34,7 @@ public class RemoveHashSetBenchmark extends HashSetBenchmark {
     public void timeRemoveScala(int reps) {
         for (int i = 0; i < reps; i++) {
             for (int j = 0; j < 100; j++) {
-                scalaSet.remove(queries.get(j));
+                scalaSet.remove(control.get(j));
             }
         }
     }
@@ -42,7 +42,7 @@ public class RemoveHashSetBenchmark extends HashSetBenchmark {
     public void timeRemoveNewHashSetScala(int reps) {
         for (int i = 0; i < reps; i++) {
             for (int j = 0; j < 100; j++) {
-                newHashSet.remove(queries.get(j));
+                newHashSet.remove(control.get(j));
             }
         }
     }

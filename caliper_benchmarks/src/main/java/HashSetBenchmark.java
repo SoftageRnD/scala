@@ -23,7 +23,7 @@ public class HashSetBenchmark extends Benchmark {
 
     public scala.collection.mutable.experimental.HashSet newHashSet;
 
-    public final List<Object> queries = new ArrayList<Object>();
+    public final List<Object> control = new ArrayList<Object>();
 
     public void setUp(int containsPerRep, int collisionPercents, int deep) {
         if (collisionPercents > 100 || collisionPercents < 0) {
@@ -34,11 +34,11 @@ public class HashSetBenchmark extends Benchmark {
         log.debug("setUp: " + containsPerRep);
 
 
-        setUpScala3(containsPerRep, collisionPercents, deep);
+        setUpSets(containsPerRep, collisionPercents, deep);
     }
 
 
-    public void setUpScala3(int containsPerRep, int collisionPercents, int deep) {
+    public void setUpSets(int containsPerRep, int collisionPercents, int deep) {
         if (collisionPercents == 0 || deep == 0) {
             if (collisionPercents == 0 && deep != 0) {
                 log.warn("Collision percents == 0, but deep!=0. set deep = 0 automatically.");
@@ -51,7 +51,7 @@ public class HashSetBenchmark extends Benchmark {
         }
         scalaSet = new scala.collection.mutable.HashSet();
         newHashSet = new scala.collection.mutable.experimental.HashSet();
-        javaSet = new LinkedHashSet<Object>();//containsPerRep
+        javaSet = new HashSet<Object>();//containsPerRep
 
         float unique = 100.0f - collisionPercents;
         float unUnique = collisionPercents + collisionPercents * deep;
@@ -62,7 +62,6 @@ public class HashSetBenchmark extends Benchmark {
 
         int uniqueCount = Math.round(uniquePath * containsPerRep);
         int unUniqueCount = Math.round(unUniquePath * containsPerRep);
-        int repeatCount = Math.round((100 / (unique + unUnique)) * containsPerRep);
 
 
         //заполняем одинаковыми уникальными объектами
@@ -72,7 +71,7 @@ public class HashSetBenchmark extends Benchmark {
             scalaSet.add(obj);
             newHashSet.add(obj);
 
-            queries.add(obj);
+            control.add(obj);
         }
 
         //дозаполняем объектами с  повторяющимися хэшкодами
@@ -83,11 +82,11 @@ public class HashSetBenchmark extends Benchmark {
             newHashSet.add(obj);
 
             if (times < unUniqueCount / (deep + 1)) {
-                queries.add(obj);
+                control.add(obj);
             }
         }
 
-        Collections.shuffle(queries, new Random());
+        Collections.shuffle(control, new Random());
 
     }
 }
