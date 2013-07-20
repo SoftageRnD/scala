@@ -1,4 +1,6 @@
 import com.google.caliper.Benchmark;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -10,6 +12,7 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 public class HashSetBenchmark extends Benchmark {
+    private static final Logger log = LoggerFactory.getLogger(HashSetBenchmark.class);
 
     /**
      * the set under test
@@ -22,22 +25,140 @@ public class HashSetBenchmark extends Benchmark {
 
     public final List<Object> queries = new ArrayList<Object>();
 
-    public void setUp(int containsPerRep) {
+    public final Set<Object> objects = new LinkedHashSet<Object>();
+
+    public void setUp(int containsPerRep, int collisionPercents, int deep) {
+        if (collisionPercents > 100 || collisionPercents < 0) {
+            log.error("Collision must be between 0 and 100");
+            throw new RuntimeException("Collision must be between 0 and 100");
+        }
+
+        log.debug("setUp: " + containsPerRep);
+
+
+        setUpScala3(containsPerRep, collisionPercents, deep);
+    }
+
+    public void setUpScala2(int containsPerRep, int collisionPercents, int deep) {
+        scalaSet = new scala.collection.mutable.HashSet();
+        newHashSet = new scala.collection.mutable.experimental.HashSet();
         javaSet = new LinkedHashSet<Object>();//containsPerRep
-        for (Integer i = 0; i < containsPerRep; i++) {
-            queries.add(i);
-            javaSet.add(i);
+
+        float collisionPer = collisionPercents / 100.0f;
+        int subSetCount = collisionPercents == 0.0f ? 1 : Math.round((100.0f / collisionPercents) + deep);
+        int subSetSize = Math.round(containsPerRep / subSetCount);
+
+        Integer uniqueCount = collisionPercents == 0.0f ? containsPerRep : subSetSize * Math.round(subSetCount - deep - 1);
+        Integer unUniqueCount = Math.round(containsPerRep - uniqueCount);
+
+
+        //заполняем одинаковыми уникальными объектами
+        for (Integer i = 0; i < uniqueCount; i++) {
+            Object obj = new HashObject(i);
+            javaSet.add(obj);
+            scalaSet.add(obj);
+            newHashSet.add(obj);
+        }
+
+        //дозаполняем объектами с  повторяющимися хэшкодами
+        for (int times = 0; times < unUniqueCount; times++) {
+            Object obj = new HashObject(times % subSetSize + uniqueCount);
+            javaSet.add(obj);
+            scalaSet.add(obj);
+            newHashSet.add(obj);
+        }
+
+        for (int i = 0; i < subSetSize * 2; i++) {
+            Object obj = new HashObject(i);
+            queries.add(obj);
+        }
+    }
+
+    public void setUpScala3(int containsPerRep, int collisionPercents, int deep) {
+        if (collisionPercents == 0 || deep == 0) {
+            if (collisionPercents == 0 && deep != 0) {
+                log.warn("Collision percents == 0, but deep!=0. set deep = 0 automatically.");
+            }
+            if (collisionPercents != 0 && deep == 0) {
+                log.warn("Collision deep == 0, but collisions!=0. set collisions = 0 automatically.");
+            }
+            collisionPercents = 0;
+            deep = 0;
+        }
+        scalaSet = new scala.collection.mutable.HashSet();
+        newHashSet = new scala.collection.mutable.experimental.HashSet();
+        javaSet = new LinkedHashSet<Object>();//containsPerRep
+
+        float unique = 100.0f - collisionPercents;
+        float unUnique = collisionPercents + collisionPercents * deep;
+
+
+        float uniquePath = unique / (unique + unUnique);
+        float unUniquePath = unUnique / (unique + unUnique);
+
+        int uniqueCount = Math.round(uniquePath * containsPerRep);
+        int unUniqueCount = Math.round(unUniquePath * containsPerRep);
+        int repeatCount = Math.round((100 / (unique + unUnique)) * containsPerRep);
+
+
+        //заполняем одинаковыми уникальными объектами
+        for (Integer i = 0; i < uniqueCount; i++) {
+            Object obj = new HashObject(i);
+            javaSet.add(obj);
+            scalaSet.add(obj);
+            newHashSet.add(obj);
+
+            queries.add(obj);
+        }
+
+        //дозаполняем объектами с  повторяющимися хэшкодами
+        for (int times = 0; times < unUniqueCount; times++) {
+            Object obj = new HashObject(times % (unUniqueCount / (deep + 1)) + uniqueCount);
+            javaSet.add(obj);
+            scalaSet.add(obj);
+            newHashSet.add(obj);
+
+            if (times < unUniqueCount / (deep + 1)) {
+                queries.add(obj);
+            }
+        }
+
+          Collections.shuffle(queries, new Random());
+
+    }
+
+    public void setUpScala(int containsPerRep, int collisionPercents) {
+        scalaSet = new scala.collection.mutable.HashSet();
+        newHashSet = new scala.collection.mutable.experimental.HashSet();
+        javaSet = new LinkedHashSet<Object>();//containsPerRep
+
+
+        Integer uniqueCount = Math.round(containsPerRep * ((100 - collisionPercents) / 100.0f));
+        if (uniqueCount == 0) uniqueCount = 1;
+        Integer unUniqueCount = containsPerRep - uniqueCount;
+
+
+        //заполняем одинаковыми уникальными объектами
+        for (Integer i = 0; i < uniqueCount; i++) {
+            Object obj = new HashObject(i);
+            javaSet.add(obj);
+            scalaSet.add(obj);
+            newHashSet.add(obj);
+
+            queries.add(obj);
+        }
+
+        //дозаполняем объектами с  повторяющимися хэшкодами
+        for (int times = 0; times < unUniqueCount; times++) {
+            Object obj = new HashObject(times % uniqueCount);
+            javaSet.add(obj);
+            scalaSet.add(obj);
+            newHashSet.add(obj);
         }
 
         Collections.shuffle(queries, new Random(0));
 
-        setUpScala(containsPerRep);
-    }
-
-    public void setUpScala(int containsPerRep) {
-        scalaSet = new scala.collection.mutable.HashSet();
-        newHashSet = new scala.collection.mutable.experimental.HashSet();
-
+        /*
         for (int i = 0; i < containsPerRep; i++) {
             Integer I = new Integer(i);
             String obj = I.toString();
@@ -45,6 +166,6 @@ public class HashSetBenchmark extends Benchmark {
             scalaSet.add(obj);
             newHashSet.add(obj);
         }
-
+          */
     }
 }

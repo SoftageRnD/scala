@@ -9,11 +9,17 @@ import static scala.collection.JavaConversions.*;
 
 
 public class ContainsHashSetBenchmark extends HashSetBenchmark {
-    @Param({ "10", "100", "500", "1000", "5000", "10000"})//,"50000", "100000" , "500000" , "1000000" })//
+    @Param({ "100000"})//, "100", "500", "1000", "5000", "10000","50000", "100000" , "500000" , "1000000" })//
     public int containsPerRep;
 
+    @Param({ "0"})
+    public int collisionPercents;
+
+    @Param({"0"})
+    public int deep;
+
     public void setUp() {
-        super.setUp(containsPerRep);
+        super.setUp(containsPerRep,collisionPercents,deep);
     }
 
     //НАЛИЧИЕ
