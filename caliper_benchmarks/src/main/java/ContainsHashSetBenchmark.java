@@ -16,7 +16,7 @@ public class ContainsHashSetBenchmark extends HashSetBenchmark {
     }
 
     //НАЛИЧИЕ
-    public void timeContains(int reps) {
+    public void timeContainsJava(int reps) {
         for (int i = 0; i < reps; i++) {
             for (int j = 0; j < 100; j++) {
                 javaSet.contains(control.get(j));

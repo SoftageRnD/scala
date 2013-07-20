@@ -23,7 +23,7 @@ public class RemoveHashSetBenchmark extends HashSetBenchmark {
 
 
     //УДАЛЕНИЕ
-    public void timeRemove(int reps) {
+    public void timeRemoveJava(int reps) {
         for (int i = 0; i < reps; i++) {
             for (int j = 0; j < 100; j++) {
                 javaSet.remove(control.get(j));

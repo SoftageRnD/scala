@@ -2,6 +2,8 @@ import com.google.caliper.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashSet;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,30 +25,33 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
 
     public void setUp() {
         super.setUp(containsPerRep,collisionPercents,deep);
+        scalaSet = new scala.collection.mutable.HashSet();
+        newHashSet = new scala.collection.mutable.experimental.HashSet();
+        javaSet = new HashSet<Object>();
     }
 
     //ДОБАВЛЕНИЕ
-    public void timeAdd(int reps) {
+    public void timeAddJava(int reps) {
         for (int i = 0; i < reps; i++) {
-            Float I = new Float(i * 1.43);
-            String obj = I.toString();
-            javaSet.add(obj);
+            for(Object obj : control){
+                javaSet.add(obj);
+            }
         }
     }
 
     public void timeAddScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            Float I = new Float(i * 1.43);
-            String obj = I.toString();
-            scalaSet.add(obj);
+            for(Object obj : control){
+                scalaSet.add(obj);
+            }
         }
     }
 
     public void timeAddNewHashSetScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            Float I = new Float(i * 1.43);
-            String obj = I.toString();
-            newHashSet.add(obj);
+            for(Object obj : control){
+                newHashSet.add(obj);
+            }
         }
     }
 }
