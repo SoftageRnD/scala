@@ -12,13 +12,13 @@ import org.slf4j.LoggerFactory;
  */
 public class AddHashSetBenchmark extends HashSetBenchmark {
     private static final Logger log = LoggerFactory.getLogger(AddHashSetBenchmark.class);
-    @Param({ "10", "100", "500", "1000", "5000", "10000"})//,"50000", "100000" , "500000" , "1000000" })//
+    @Param({"100000"})//,"50000", "100000" , "500000" , "1000000" })//
     public int containsPerRep;
 
-    @Param({ "10", "10", "10", "10", "10", "10"})
+    @Param({ "0", "20"})
     public int collisionPercents;
 
-    @Param({"1"})
+    @Param({"2","16"})
     public int deep;
 
     public void setUp() {
@@ -26,10 +26,6 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
     }
 
     //ДОБАВЛЕНИЕ
-
-    /**
-     * без коллизий
-     */
     public void timeAdd(int reps) {
         for (int i = 0; i < reps; i++) {
             Float I = new Float(i * 1.43);
@@ -38,9 +34,6 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
         }
     }
 
-    /**
-     * без коллизий
-     */
     public void timeAddScala(int reps) {
         for (int i = 0; i < reps; i++) {
             Float I = new Float(i * 1.43);

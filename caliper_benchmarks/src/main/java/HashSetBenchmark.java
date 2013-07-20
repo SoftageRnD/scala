@@ -25,8 +25,6 @@ public class HashSetBenchmark extends Benchmark {
 
     public final List<Object> queries = new ArrayList<Object>();
 
-    public final Set<Object> objects = new LinkedHashSet<Object>();
-
     public void setUp(int containsPerRep, int collisionPercents, int deep) {
         if (collisionPercents > 100 || collisionPercents < 0) {
             log.error("Collision must be between 0 and 100");
@@ -39,40 +37,6 @@ public class HashSetBenchmark extends Benchmark {
         setUpScala3(containsPerRep, collisionPercents, deep);
     }
 
-    public void setUpScala2(int containsPerRep, int collisionPercents, int deep) {
-        scalaSet = new scala.collection.mutable.HashSet();
-        newHashSet = new scala.collection.mutable.experimental.HashSet();
-        javaSet = new LinkedHashSet<Object>();//containsPerRep
-
-        float collisionPer = collisionPercents / 100.0f;
-        int subSetCount = collisionPercents == 0.0f ? 1 : Math.round((100.0f / collisionPercents) + deep);
-        int subSetSize = Math.round(containsPerRep / subSetCount);
-
-        Integer uniqueCount = collisionPercents == 0.0f ? containsPerRep : subSetSize * Math.round(subSetCount - deep - 1);
-        Integer unUniqueCount = Math.round(containsPerRep - uniqueCount);
-
-
-        //заполняем одинаковыми уникальными объектами
-        for (Integer i = 0; i < uniqueCount; i++) {
-            Object obj = new HashObject(i);
-            javaSet.add(obj);
-            scalaSet.add(obj);
-            newHashSet.add(obj);
-        }
-
-        //дозаполняем объектами с  повторяющимися хэшкодами
-        for (int times = 0; times < unUniqueCount; times++) {
-            Object obj = new HashObject(times % subSetSize + uniqueCount);
-            javaSet.add(obj);
-            scalaSet.add(obj);
-            newHashSet.add(obj);
-        }
-
-        for (int i = 0; i < subSetSize * 2; i++) {
-            Object obj = new HashObject(i);
-            queries.add(obj);
-        }
-    }
 
     public void setUpScala3(int containsPerRep, int collisionPercents, int deep) {
         if (collisionPercents == 0 || deep == 0) {
@@ -123,49 +87,7 @@ public class HashSetBenchmark extends Benchmark {
             }
         }
 
-          Collections.shuffle(queries, new Random());
+        Collections.shuffle(queries, new Random());
 
-    }
-
-    public void setUpScala(int containsPerRep, int collisionPercents) {
-        scalaSet = new scala.collection.mutable.HashSet();
-        newHashSet = new scala.collection.mutable.experimental.HashSet();
-        javaSet = new LinkedHashSet<Object>();//containsPerRep
-
-
-        Integer uniqueCount = Math.round(containsPerRep * ((100 - collisionPercents) / 100.0f));
-        if (uniqueCount == 0) uniqueCount = 1;
-        Integer unUniqueCount = containsPerRep - uniqueCount;
-
-
-        //заполняем одинаковыми уникальными объектами
-        for (Integer i = 0; i < uniqueCount; i++) {
-            Object obj = new HashObject(i);
-            javaSet.add(obj);
-            scalaSet.add(obj);
-            newHashSet.add(obj);
-
-            queries.add(obj);
-        }
-
-        //дозаполняем объектами с  повторяющимися хэшкодами
-        for (int times = 0; times < unUniqueCount; times++) {
-            Object obj = new HashObject(times % uniqueCount);
-            javaSet.add(obj);
-            scalaSet.add(obj);
-            newHashSet.add(obj);
-        }
-
-        Collections.shuffle(queries, new Random(0));
-
-        /*
-        for (int i = 0; i < containsPerRep; i++) {
-            Integer I = new Integer(i);
-            String obj = I.toString();
-
-            scalaSet.add(obj);
-            newHashSet.add(obj);
-        }
-          */
     }
 }

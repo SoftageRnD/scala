@@ -25,25 +25,25 @@ public class RemoveHashSetBenchmark extends HashSetBenchmark {
     //УДАЛЕНИЕ
     public void timeRemove(int reps) {
         for (int i = 0; i < reps; i++) {
-            Integer I = new Integer(i);
-            String obj = I.toString();
-            javaSet.remove(obj);
+            for (int j = 0; j < 100; j++) {
+                javaSet.remove(queries.get(j));
+            }
         }
     }
 
     public void timeRemoveScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            Integer I = new Integer(i);
-            String obj = I.toString();
-            scalaSet.remove(obj);
+            for (int j = 0; j < 100; j++) {
+                scalaSet.remove(queries.get(j));
+            }
         }
     }
 
     public void timeRemoveNewHashSetScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            Integer I = new Integer(i);
-            String obj = I.toString();
-            newHashSet.remove(obj);
+            for (int j = 0; j < 100; j++) {
+                newHashSet.remove(queries.get(j));
+            }
         }
     }
 }
