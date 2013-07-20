@@ -10,5 +10,7 @@ mvn -U clean install
 
 for benchmark in "${BENCHMARK_LIST[@]}"
 do
+	echo "-- Start benchmark: $benchmark --"
 	java -jar target/benchmark-0.0.1-SNAPSHOT-jar-with-dependencies.jar $benchmark -l 0
+	echo "-- End benchmark --"
 done
