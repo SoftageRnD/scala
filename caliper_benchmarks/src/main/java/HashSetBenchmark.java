@@ -17,7 +17,7 @@ public class HashSetBenchmark extends Benchmark {
     /**
      * the set under test
      */
-    public Set<Object> javaSet;// = new HashSet<Object>();
+    public Set<Object> javaSet;
 
     public scala.collection.mutable.Set scalaSet;
 
@@ -51,7 +51,7 @@ public class HashSetBenchmark extends Benchmark {
         }
         scalaSet = new scala.collection.mutable.HashSet();
         newHashSet = new scala.collection.mutable.experimental.HashSet();
-        javaSet = new HashSet<Object>();//containsPerRep
+        javaSet = new HashSet<Object>();
 
         float unique = 100.0f - collisionPercents;
         float unUnique = collisionPercents + collisionPercents * deep;
