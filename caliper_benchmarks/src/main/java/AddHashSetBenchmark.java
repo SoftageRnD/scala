@@ -15,10 +15,10 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
     @Param({"100000"})//,"50000", "100000" , "500000" , "1000000" })//
     public int containsPerRep;
 
-    @Param({ "0", "20"})
+    @Param({"20"})
     public int collisionPercents;
 
-    @Param({"2","16"})
+    @Param({"0","2","16"})
     public int deep;
 
     public void setUp() {

@@ -8,13 +8,13 @@ import com.google.caliper.Param;
  * To change this template use File | Settings | File Templates.
  */
 public class RemoveHashSetBenchmark extends HashSetBenchmark {
-    @Param({"10", "100", "500", "1000", "5000", "10000"})// ,"50000", "100000" , "500000" , "1000000"})//
+    @Param({ "100000"})// ,"50000", "100000" , "500000" , "1000000"})//
     public int containsPerRep;
 
-    @Param({"10", "10", "10", "10", "10", "10"})
+    @Param({"20"})
     public int collisionPercents;
 
-    @Param({"1"})
+    @Param({"0","2","20"})
     public int deep;
 
     public void setUp() {
