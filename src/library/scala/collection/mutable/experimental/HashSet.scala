@@ -161,7 +161,7 @@ class HashSet[A]
 
   override def empty = new HashSet[A]
 
-  private def getIndex(tableSize: Int)(elem: A): Int = elem.hashCode & tableSize - 1
+  private def getIndex(tableSize: Int)(elem: A): Int = elem.## & tableSize - 1
 
   private def getCell(elem: A): Any = table(getIndex(table.length)(elem))
 
