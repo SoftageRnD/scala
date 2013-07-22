@@ -35,6 +35,21 @@ public class HashSetBenchmark extends Benchmark {
 
 
         setUpSets(containsPerRep, collisionPercents, deep);
+
+        for (HashObject obj : control) {
+            if (!javaSet.contains(obj)) {
+                log.error("Java set can't find object.");
+                throw new RuntimeException("Java set can't find object");
+            }
+            if (!scalaSet.contains(obj)) {
+                log.error("ScalaSet can't find object.");
+                throw new RuntimeException("ScalaSet can't find object.");
+            }
+            if (!newHashSet.contains(obj)) {
+                log.error("NewHashSet can't find object.");
+                throw new RuntimeException("NewHashSet can't find object.");
+            }
+        }
     }
 
 
