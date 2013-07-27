@@ -81,32 +81,38 @@ class HashSet[A]
     newElementAdded
   }
 
-  override def +=(elem: A): this.type = {
-    add(elem); this
-  }
-
-  def -=(elem: A): this.type = {
+  override def remove(elem: A): Boolean = {
     val index = getIndex(table.length)(elem)
     table(index) match {
-      case null => this
+      case null => false
       case bucket: Bucket[A] => {
-        bucket.remove(elem) match {
-          case None => this
-          case Some(_) =>
-            if (bucket.size == 1)
-              table.update(index, bucket.getSingleValue)
-            collectionSize -= 1
+        val wasRemoved = bucket.remove(elem)
+        if (wasRemoved) {
+          if (bucket.size == 1)
+            table.update(index, bucket.getSingleValue)
+          collectionSize -= 1
         }
-        this
+        wasRemoved
       }
       case value => {
-        if (value == elem) {
+        val sameElem = value == elem
+        if (sameElem) {
           table.update(index, null)
           collectionSize -= 1
         }
-        this
+        sameElem
       }
     }
+  }
+
+  override def +=(elem: A): this.type = {
+    add(elem)
+    this
+  }
+
+  def -=(elem: A): this.type = {
+    remove(elem)
+    this
   }
 
   def contains(elem: A): Boolean = getCell(elem) match {
@@ -202,11 +208,12 @@ object HashSet extends MutableSetFactory[HashSet] {
 
     def contains(elem: A): Boolean = set.contains(elem)
 
-    def remove(elem: A): Option[A] =
-      if (set.contains(elem)) {
+    def remove(elem: A): Boolean = {
+      val alreadyExisted = set.contains(elem)
+      if (alreadyExisted)
         set = set - elem
-        Some(elem)
-      } else None
+      alreadyExisted
+    }
 
     def getSingleValue: A =
       if (size == 1)
