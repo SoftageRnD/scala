@@ -38,7 +38,7 @@ class HashSet[A]
       }
       case bucket: Bucket => bucket.add(elem)
       case value => {
-        table.update(index, new Bucket(value, elem))
+        table.update(index, createBucket(value, elem))
         value == elem
       }
     }
@@ -52,7 +52,7 @@ class HashSet[A]
     table(index) match {
       case null => table.update(index, elem)
       case bucket: Bucket => bucket.addWithoutCheck(elem)
-      case value => table.update(index, new Bucket(value, elem))
+      case value => table.update(index, createBucket(value, elem))
     }
   }
 
@@ -165,10 +165,19 @@ class HashSet[A]
 
   private def getCell(elem: A): Any = table(getIndex(table.length)(elem))
 
+  private def createBucket(firstElem: Any, secondElem: Any): Bucket = {
+    val bucket = new Bucket
+    bucket.init(firstElem, secondElem)
+    bucket
+  }
 
-  private class Bucket(val firstElem: Any, val secondElem: Any) {
+  private class Bucket {
 
-    private var set: Set[A] = immutable.Set(firstElem.asInstanceOf[A], secondElem.asInstanceOf[A])
+    private var set: Set[A] = null
+
+    def init(firstElem: Any, secondElem: Any) {
+      set = immutable.Set(firstElem.asInstanceOf[A], secondElem.asInstanceOf[A])
+    }
 
     /**
      * @return if the same element already existed
