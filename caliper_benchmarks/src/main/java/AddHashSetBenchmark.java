@@ -2,7 +2,7 @@ import com.google.caliper.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
+import java.util.*;
 
 
 /**
@@ -23,8 +23,14 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
     @Param({"0","2","16"})
     public int deep;
 
+    private List<Object> controlList = new ArrayList();
+
     public void setUp() {
         super.setUp(containsPerRep,collisionPercents,deep);
+
+        controlList.addAll(Arrays.asList(javaSet.toArray()));
+        Collections.shuffle(controlList, new Random());
+
         scalaSet = new scala.collection.mutable.HashSet();
         newHashSet = new scala.collection.mutable.experimental.HashSet();
         javaSet = new HashSet<Object>();
@@ -33,24 +39,24 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
     //ДОБАВЛЕНИЕ
     public void timeAddJava(int reps) {
         for (int i = 0; i < reps; i++) {
-            for(Object obj : control){
-                javaSet.add(obj);
+            for (int j = 0; j < controlList.size(); j++) {
+                javaSet.add(controlList.get(j));
             }
         }
     }
 
     public void timeAddScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            for(Object obj : control){
-                scalaSet.add(obj);
+            for (int j = 0; j < controlList.size(); j++) {
+                scalaSet.add(controlList.get(j));
             }
         }
     }
 
     public void timeAddNewHashSetScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            for(Object obj : control){
-                newHashSet.add(obj);
+            for (int j = 0; j < controlList.size(); j++) {
+                newHashSet.add(controlList.get(j));
             }
         }
     }
