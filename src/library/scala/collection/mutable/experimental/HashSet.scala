@@ -1,5 +1,8 @@
 package scala.collection.mutable.experimental
 
+import scala.collection.generic.{MutableSetFactory, CanBuildFrom}
+import scala.collection.{TraversableOnce, mutable, immutable}
+import scala.collection.mutable.experimental.HashSet.Bucket
 
 class HashSet[A]
   extends mutable.Set[A]
