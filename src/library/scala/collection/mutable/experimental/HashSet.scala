@@ -1,7 +1,5 @@
 package scala.collection.mutable.experimental
 
-import scala.collection.generic.{MutableSetFactory, CanBuildFrom}
-import scala.collection.{TraversableOnce, mutable, immutable}
 
 class HashSet[A]
   extends mutable.Set[A]
@@ -36,9 +34,9 @@ class HashSet[A]
         table.update(index, elem)
         false
       }
-      case bucket: Bucket => bucket.add(elem)
+      case bucket: Bucket[A] => bucket.add(elem)
       case value => {
-        table.update(index, createBucket(value, elem))
+        table.update(index, HashSet.createBucket(value, elem))
         value == elem
       }
     }
@@ -51,8 +49,8 @@ class HashSet[A]
     val index = getIndex(table.length)(elem)
     table(index) match {
       case null => table.update(index, elem)
-      case bucket: Bucket => bucket.addWithoutCheck(elem)
-      case value => table.update(index, createBucket(value, elem))
+      case bucket: Bucket[A] => bucket.addWithoutCheck(elem)
+      case value => table.update(index, HashSet.createBucket(value, elem))
     }
   }
 
@@ -83,7 +81,7 @@ class HashSet[A]
     val index = getIndex(table.length)(elem)
     table(index) match {
       case null => this
-      case bucket: Bucket => {
+      case bucket: Bucket[A] => {
         bucket.remove(elem) match {
           case None => this
           case Some(_) =>
@@ -105,7 +103,7 @@ class HashSet[A]
 
   def contains(elem: A): Boolean = getCell(elem) match {
     case null => false
-    case bucket: Bucket => bucket.contains(elem)
+    case bucket: Bucket[A] => bucket.contains(elem)
     case value => value == elem
   }
 
@@ -130,7 +128,7 @@ class HashSet[A]
           while (index < table.length) {
             table(index) match {
               case null => index += 1
-              case bucket: Bucket => {
+              case bucket: Bucket[A] => {
                 bucketIterator = bucket.iterator
                 elemsVisited += 1
                 return bucketIterator.next()
@@ -152,7 +150,7 @@ class HashSet[A]
     while (index < table.length) {
       table(index) match {
         case null => Unit
-        case bucket: Bucket => bucket.foreach(f)
+        case bucket: Bucket[A] => bucket.foreach(f)
         case value => f(value.asInstanceOf[A])
       }
       index += 1
@@ -164,20 +162,22 @@ class HashSet[A]
   private def getIndex(tableSize: Int)(elem: A): Int = elem.## & tableSize - 1
 
   private def getCell(elem: A): Any = table(getIndex(table.length)(elem))
+}
 
-  private def createBucket(firstElem: Any, secondElem: Any): Bucket = {
-    val bucket = new Bucket
-    bucket.init(firstElem, secondElem)
-    bucket
+object HashSet extends MutableSetFactory[HashSet] {
+
+  private val DefaultInitialCapacity = 16
+  private val DefaultLoadFactor = 0.75f
+
+  implicit def canBuildFrom[A]: CanBuildFrom[Coll, A, HashSet[A]] = setCanBuildFrom[A]
+
+  override def empty[A]: HashSet[A] = new HashSet[A]
+
+  private def createBucket[A](firstElem: Any, secondElem: Any): Bucket[A] = {
+    new Bucket[A](immutable.Set(firstElem.asInstanceOf[A], secondElem.asInstanceOf[A]))
   }
 
-  private class Bucket {
-
-    private var set: Set[A] = null
-
-    def init(firstElem: Any, secondElem: Any) {
-      set = immutable.Set(firstElem.asInstanceOf[A], secondElem.asInstanceOf[A])
-    }
+  private class Bucket[A](var set: Set[A]) {
 
     /**
      * @return if the same element already existed
@@ -214,14 +214,4 @@ class HashSet[A]
     }
   }
 
-}
-
-object HashSet extends MutableSetFactory[HashSet] {
-
-  private val DefaultInitialCapacity = 16
-  private val DefaultLoadFactor = 0.75f
-
-  implicit def canBuildFrom[A]: CanBuildFrom[Coll, A, HashSet[A]] = setCanBuildFrom[A]
-
-  override def empty[A]: HashSet[A] = new HashSet[A]
 }
