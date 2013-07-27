@@ -71,13 +71,18 @@ class HashSet[A]
     super.++=(xs)
   }
 
-  override def +=(elem: A): this.type = {
+  override def add(elem: A): Boolean = {
     val expectedCollectionSize = collectionSize + 1
     if (expectedCollectionSize > threshold)
       resizeTable(table.length * 2)
-    if (!putIntoTable(table)(elem))
+    val newElementAdded = !putIntoTable(table)(elem)
+    if (newElementAdded)
       collectionSize = expectedCollectionSize
-    this
+    newElementAdded
+  }
+
+  override def +=(elem: A): this.type = {
+    add(elem); this
   }
 
   def -=(elem: A): this.type = {
