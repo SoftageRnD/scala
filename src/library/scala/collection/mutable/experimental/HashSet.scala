@@ -13,6 +13,7 @@ class HashSet[A]
   private var table = new Array[Any](HashSet.DefaultInitialCapacity)
   private var collectionSize = 0
   private var threshold = calculateThreshold()
+  private var containsNull = false
 
   override def size: Int = collectionSize
 
@@ -72,6 +73,15 @@ class HashSet[A]
   }
 
   override def add(elem: A): Boolean = {
+    if (elem == null) {
+      if (!containsNull) {
+        containsNull = true
+        collectionSize += 1
+        return true
+      }
+      return false
+    }
+
     val expectedCollectionSize = collectionSize + 1
     if (expectedCollectionSize > threshold)
       resizeTable(table.length * 2)
@@ -82,6 +92,15 @@ class HashSet[A]
   }
 
   override def remove(elem: A): Boolean = {
+    if (elem == null) {
+      if (containsNull) {
+        containsNull = false
+        collectionSize -= 1
+        return true
+      }
+      return false
+    }
+
     val index = getIndex(table.length)(elem)
     table(index) match {
       case null => false
@@ -115,14 +134,19 @@ class HashSet[A]
     this
   }
 
-  def contains(elem: A): Boolean = getCell(elem) match {
-    case null => false
-    case bucket: Bucket[A] => bucket.contains(elem)
-    case value => value == elem
+  def contains(elem: A): Boolean = {
+    if (elem == null)
+      containsNull
+    else
+      getCell(elem) match {
+        case null => false
+        case bucket: Bucket[A] => bucket.contains(elem)
+        case value => value == elem
+      }
   }
 
   def iterator: Iterator[A] = new Iterator[A] {
-    private var index = 0
+    private var index = -1
     private var bucketIterator: Iterator[A] = null
     private var elemsVisited = 0
 
@@ -130,6 +154,14 @@ class HashSet[A]
 
     def next(): A =
       if (hasNext) {
+        if (index == -1) {
+          index = 0
+          if (containsNull) {
+            elemsVisited += 1
+            return null.asInstanceOf[A]
+          }
+        }
+
         if (bucketIterator != null) {
           val elem = bucketIterator.next()
           if (!bucketIterator.hasNext) {
@@ -161,6 +193,8 @@ class HashSet[A]
 
   override def foreach[U](f: A => U) {
     var index = 0
+    if (containsNull)
+      f(null.asInstanceOf[A])
     while (index < table.length) {
       table(index) match {
         case null => Unit
