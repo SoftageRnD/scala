@@ -41,9 +41,7 @@ class HashSet[A]
       case bucket: Bucket[A] => bucket.add(elem)
       case value => {
         val isSame = value == elem
-        if (isSame)
-          table.update(index, elem)
-        else
+        if (!isSame)
           table.update(index, HashSet.createBucket(value, elem))
         isSame
       }
