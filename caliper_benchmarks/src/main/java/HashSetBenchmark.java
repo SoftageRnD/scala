@@ -99,7 +99,7 @@ public class HashSetBenchmark extends Benchmark {
         
         Collections.shuffle(tempList, new Random());
         
-        for (int i = 0; i < tempList.size(); i++){
+        for (HashObject obj : tempList){
             javaSet.add(obj);
             scalaSet.add(obj);
             newHashSet.add(obj);    
