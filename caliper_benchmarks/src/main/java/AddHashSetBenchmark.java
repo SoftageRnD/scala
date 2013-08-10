@@ -20,7 +20,7 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
     @Param({"20"})
     public int collisionPercents;
 
-    @Param({"0","2","16"})
+    @Param({"0","2","20"})
     public int deep;
 
     private List<Object> controlList = new ArrayList();
