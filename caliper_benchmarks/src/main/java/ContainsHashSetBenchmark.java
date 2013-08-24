@@ -8,7 +8,7 @@ public class ContainsHashSetBenchmark extends HashSetBenchmark {
     @Param({"20"})
     public int collisionPercents;
 
-    @Param({"0", "2", "16"})
+    @Param({"0", "2", "20"})
     public int deep;
 
     public void setUp() {

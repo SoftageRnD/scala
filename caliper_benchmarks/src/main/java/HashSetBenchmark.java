@@ -78,13 +78,11 @@ public class HashSetBenchmark extends Benchmark {
         int uniqueCount = Math.round(uniquePath * containsPerRep);
         int unUniqueCount = Math.round(unUniquePath * containsPerRep);
 
-
+        List<HashObject> tempList = new ArrayList<HashObject>();
         //заполняем одинаковыми уникальными объектами
         for (Integer i = 0; i < uniqueCount; i++) {
             HashObject obj = new HashObject(i);
-            javaSet.add(obj);
-            scalaSet.add(obj);
-            newHashSet.add(obj);
+            tempList.add(obj);
 
             control.add(obj);
         }
@@ -92,13 +90,19 @@ public class HashSetBenchmark extends Benchmark {
         //дозаполняем объектами с  повторяющимися хэшкодами
         for (int times = 0; times < unUniqueCount; times++) {
             HashObject obj = new HashObject(times % (unUniqueCount / (deep + 1)) + uniqueCount);
-            javaSet.add(obj);
-            scalaSet.add(obj);
-            newHashSet.add(obj);
+            tempList.add(obj);
 
             if (times < unUniqueCount / (deep + 1)) {
                 control.add(obj);
             }
+        }
+        
+        Collections.shuffle(tempList, new Random());
+        
+        for (HashObject obj : tempList){
+            javaSet.add(obj);
+            scalaSet.add(obj);
+            newHashSet.add(obj);    
         }
 
         Collections.shuffle(control, new Random());

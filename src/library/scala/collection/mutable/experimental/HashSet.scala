@@ -2,6 +2,7 @@ package scala.collection.mutable.experimental
 
 import scala.collection.generic.{MutableSetFactory, CanBuildFrom}
 import scala.collection.{TraversableOnce, mutable, immutable}
+import scala.collection.mutable.experimental.HashSet.Bucket
 
 class HashSet[A]
   extends mutable.Set[A]
@@ -9,9 +10,10 @@ class HashSet[A]
 
   private val loadFactor = HashSet.DefaultLoadFactor
 
-  private var table = new Array[Any](HashSet.DefaultInitialCapacity)
+  private var table = new Array[AnyRef](HashSet.DefaultInitialCapacity)
   private var collectionSize = 0
   private var threshold = calculateThreshold()
+  private var containsNull = false
 
   override def size: Int = collectionSize
 
@@ -19,8 +21,16 @@ class HashSet[A]
 
 
   private def resizeTable(newTableSize: Int) {
-    val newTable = new Array[Any](newTableSize)
-    foreach(putIntoTableWithoutCheck(newTable))
+    val newTable = new Array[AnyRef](newTableSize)
+    var index = 0
+    while (index < newTableSize) {
+      newTable(index) match {
+        case null => Unit
+        case bucket: Bucket => bucket.foreach(putIntoTableWithoutCheck(newTable))
+        case value => putIntoTableWithoutCheck(newTable)(value)
+      }
+      index += 1
+    }
     table = newTable
     threshold = calculateThreshold()
   }
@@ -29,7 +39,7 @@ class HashSet[A]
    *
    * @return if the same element already existed
    */
-  private def putIntoTable(table: Array[Any])(elem: A): Boolean = {
+  private def putIntoTable(table: Array[AnyRef])(elem: AnyRef): Boolean = {
     val index = getIndex(table.length)(elem)
     table(index) match {
       case null => {
@@ -38,8 +48,10 @@ class HashSet[A]
       }
       case bucket: Bucket => bucket.add(elem)
       case value => {
-        table.update(index, new Bucket(value, elem))
-        value == elem
+        val isSame = value == elem
+        if (!isSame)
+          table.update(index, HashSet.createBucket(value, elem))
+        isSame
       }
     }
   }
@@ -47,12 +59,12 @@ class HashSet[A]
   /**
    * Previously existed elements replaced without any checks
    */
-  private def putIntoTableWithoutCheck(table: Array[Any])(elem: A) {
+  private def putIntoTableWithoutCheck(table: Array[AnyRef])(elem: AnyRef) {
     val index = getIndex(table.length)(elem)
     table(index) match {
       case null => table.update(index, elem)
       case bucket: Bucket => bucket.addWithoutCheck(elem)
-      case value => table.update(index, new Bucket(value, elem))
+      case value => table.update(index, HashSet.createBucket(value, elem))
     }
   }
 
@@ -70,54 +82,99 @@ class HashSet[A]
     super.++=(xs)
   }
 
-  override def +=(elem: A): this.type = {
+  override def add(elem: A): Boolean = {
+    val elemRef = elem.asInstanceOf[AnyRef]
+    if (elemRef eq null) {
+      if (!containsNull) {
+        containsNull = true
+        collectionSize += 1
+        return true
+      }
+      return false
+    }
+
     val expectedCollectionSize = collectionSize + 1
     if (expectedCollectionSize > threshold)
       resizeTable(table.length * 2)
-    if (!putIntoTable(table)(elem))
+    val newElementAdded = !putIntoTable(table)(elemRef)
+    if (newElementAdded)
       collectionSize = expectedCollectionSize
-    this
+    newElementAdded
   }
 
-  def -=(elem: A): this.type = {
-    val index = getIndex(table.length)(elem)
+  override def remove(elem: A): Boolean = {
+    val elemRef = elem.asInstanceOf[AnyRef]
+    if (elemRef eq null) {
+      if (containsNull) {
+        containsNull = false
+        collectionSize -= 1
+        return true
+      }
+      return false
+    }
+
+    val index = getIndex(table.length)(elemRef)
     table(index) match {
-      case null => this
+      case null => false
       case bucket: Bucket => {
-        bucket.remove(elem) match {
-          case None => this
-          case Some(_) =>
-            if (bucket.size == 1)
-              table.update(index, bucket.getSingleValue)
-            collectionSize -= 1
+        val wasRemoved = bucket.remove(elemRef)
+        if (wasRemoved) {
+          if (bucket.size == 1)
+            table.update(index, bucket.getSingleValue)
+          collectionSize -= 1
         }
-        this
+        wasRemoved
       }
       case value => {
-        if (value == elem) {
+        val sameElem = value == elemRef
+        if (sameElem) {
           table.update(index, null)
           collectionSize -= 1
         }
-        this
+        sameElem
       }
     }
   }
 
-  def contains(elem: A): Boolean = getCell(elem) match {
-    case null => false
-    case bucket: Bucket => bucket.contains(elem)
-    case value => value == elem
+  override def +=(elem: A): this.type = {
+    add(elem)
+    this
+  }
+
+  def -=(elem: A): this.type = {
+    remove(elem)
+    this
+  }
+
+  def contains(elem: A): Boolean = {
+    val elemRef = elem.asInstanceOf[AnyRef]
+    if (elemRef eq null)
+      containsNull
+    else
+      getCell(elemRef) match {
+        case null => false
+        case bucket: Bucket => bucket.contains(elemRef)
+        case value => value == elemRef
+      }
   }
 
   def iterator: Iterator[A] = new Iterator[A] {
-    private var index = 0
-    private var bucketIterator: Iterator[A] = null
+    private var index = -1
+    private var bucketIterator: Iterator[AnyRef] = null
     private var elemsVisited = 0
 
     def hasNext: Boolean = elemsVisited < collectionSize
 
     def next(): A =
       if (hasNext) {
+        if (index == -1) {
+          index = 0
+          if (containsNull) {
+            elemsVisited += 1
+            return null.asInstanceOf[A]
+          }
+        }
+
         if (bucketIterator != null) {
           val elem = bucketIterator.next()
           if (!bucketIterator.hasNext) {
@@ -125,7 +182,7 @@ class HashSet[A]
             index += 1
           }
           elemsVisited += 1
-          elem
+          elem.asInstanceOf[A]
         } else {
           while (index < table.length) {
             table(index) match {
@@ -133,7 +190,7 @@ class HashSet[A]
               case bucket: Bucket => {
                 bucketIterator = bucket.iterator
                 elemsVisited += 1
-                return bucketIterator.next()
+                return bucketIterator.next().asInstanceOf[A]
               }
               case value => {
                 elemsVisited += 1
@@ -149,10 +206,12 @@ class HashSet[A]
 
   override def foreach[U](f: A => U) {
     var index = 0
+    if (containsNull)
+      f(null.asInstanceOf[A])
     while (index < table.length) {
       table(index) match {
         case null => Unit
-        case bucket: Bucket => bucket.foreach(f)
+        case bucket: Bucket => bucket.foreach((el: AnyRef) => f(el.asInstanceOf[A]))
         case value => f(value.asInstanceOf[A])
       }
       index += 1
@@ -161,50 +220,9 @@ class HashSet[A]
 
   override def empty = new HashSet[A]
 
-  private def getIndex(tableSize: Int)(elem: A): Int = elem.## & tableSize - 1
+  private def getIndex(tableSize: Int)(elem: AnyRef): Int = elem.## & tableSize - 1
 
-  private def getCell(elem: A): Any = table(getIndex(table.length)(elem))
-
-
-  private class Bucket(val firstElem: Any, val secondElem: Any) {
-
-    private var set: Set[A] = immutable.Set(firstElem.asInstanceOf[A], secondElem.asInstanceOf[A])
-
-    /**
-     * @return if the same element already existed
-     */
-    def add(elem: A): Boolean = {
-      val elementAlreadyExisted = set.contains(elem)
-      set = set + elem
-      elementAlreadyExisted
-    }
-
-    def addWithoutCheck(elem: A) {
-      set = set + elem
-    }
-
-    def contains(elem: A): Boolean = set.contains(elem)
-
-    def remove(elem: A): Option[A] =
-      if (set.contains(elem)) {
-        set = set - elem
-        Some(elem)
-      } else None
-
-    def getSingleValue: A =
-      if (size == 1)
-        set.head
-      else throw new IllegalStateException("trying to get single value from bucket with size " + size)
-
-    def size: Int = set.size
-
-    def iterator: Iterator[A] = set.iterator
-
-    def foreach[U](f: A => U) {
-      set.foreach(f)
-    }
-  }
-
+  private def getCell(elem: AnyRef): Any = table(getIndex(table.length)(elem))
 }
 
 object HashSet extends MutableSetFactory[HashSet] {
@@ -215,4 +233,47 @@ object HashSet extends MutableSetFactory[HashSet] {
   implicit def canBuildFrom[A]: CanBuildFrom[Coll, A, HashSet[A]] = setCanBuildFrom[A]
 
   override def empty[A]: HashSet[A] = new HashSet[A]
+
+  private def createBucket[A](firstElem: AnyRef, secondElem: AnyRef): Bucket = {
+    new Bucket(immutable.Set(firstElem, secondElem))
+  }
+
+  private class Bucket(var set: Set[AnyRef]) {
+
+    /**
+     * @return if the same element already existed
+     */
+    def add(elem: AnyRef): Boolean = {
+      val elementAlreadyExisted = set.contains(elem)
+      set = set + elem
+      elementAlreadyExisted
+    }
+
+    def addWithoutCheck(elem: AnyRef) {
+      set = set + elem
+    }
+
+    def contains(elem: AnyRef): Boolean = set.contains(elem)
+
+    def remove(elem: AnyRef): Boolean = {
+      val alreadyExisted = set.contains(elem)
+      if (alreadyExisted)
+        set = set - elem
+      alreadyExisted
+    }
+
+    def getSingleValue: AnyRef =
+      if (size == 1)
+        set.head
+      else throw new IllegalStateException("trying to get single value from bucket with size " + size)
+
+    def size: Int = set.size
+
+    def iterator: Iterator[AnyRef] = set.iterator
+
+    def foreach[U](f: AnyRef => U) {
+      set.foreach(f)
+    }
+  }
+
 }
