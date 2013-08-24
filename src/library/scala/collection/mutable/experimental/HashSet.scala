@@ -23,7 +23,7 @@ class HashSet[A]
   private def resizeTable(newTableSize: Int) {
     val newTable = new Array[AnyRef](newTableSize)
     var index = 0
-    while (index < newTableSize) {
+    while (index < table.length) {
       table(index) match {
         case null => Unit
         case bucket: Bucket => bucket.foreach(putIntoTableWithoutCheck(newTable))
