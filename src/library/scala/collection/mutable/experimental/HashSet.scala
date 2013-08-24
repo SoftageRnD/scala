@@ -24,7 +24,7 @@ class HashSet[A]
     val newTable = new Array[AnyRef](newTableSize)
     var index = 0
     while (index < newTableSize) {
-      newTable(index) match {
+      table(index) match {
         case null => Unit
         case bucket: Bucket => bucket.foreach(putIntoTableWithoutCheck(newTable))
         case value => putIntoTableWithoutCheck(newTable)(value)
