@@ -31,7 +31,7 @@ public class ContainsNotExistsElementBenchmark extends HashSetBenchmark {
     //НАЛИЧИЕ
     public void timeContainsJava(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < 100; j++) {
+            for (int j = 0; j < controlSet.size(); j++) {
                 javaSet.contains(controlSet.get(j));
             }
         }
@@ -39,7 +39,7 @@ public class ContainsNotExistsElementBenchmark extends HashSetBenchmark {
 
     public void timeContainsScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < 100; j++) {
+            for (int j = 0; j < controlSet.size(); j++) {
                 scalaSet.contains(controlSet.get(j));
             }
         }
@@ -47,7 +47,7 @@ public class ContainsNotExistsElementBenchmark extends HashSetBenchmark {
 
     public void timeContainsNewHashSetScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < 100; j++) {
+            for (int j = 0; j < controlSet.size(); j++) {
                 newHashSet.contains(controlSet.get(j));
             }
         }

@@ -18,7 +18,7 @@ public class ContainsHashSetBenchmark extends HashSetBenchmark {
     //НАЛИЧИЕ
     public void timeContainsJava(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < 100; j++) {
+            for (int j = 0; j < control.size(); j++) {
                 javaSet.contains(control.get(j));
             }
         }
@@ -26,7 +26,7 @@ public class ContainsHashSetBenchmark extends HashSetBenchmark {
 
     public void timeContainsScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < 100; j++) {
+            for (int j = 0; j < control.size(); j++) {
                 scalaSet.contains(control.get(j));
             }
         }
@@ -34,7 +34,7 @@ public class ContainsHashSetBenchmark extends HashSetBenchmark {
 
     public void timeContainsNewHashSetScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < 100; j++) {
+            for (int j = 0; j < control.size(); j++) {
                 newHashSet.contains(control.get(j));
             }
         }
