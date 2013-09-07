@@ -35,9 +35,6 @@ public class HashSetBenchmark {
             throw new RuntimeException("Collision must be between 0 and 100");
         }
 
-        log.debug("setUp: " + containsPerRep);
-
-
         setUpSets(containsPerRep, collisionPercents, deep);
 
         for (HashObject obj : control) {
@@ -60,12 +57,6 @@ public class HashSetBenchmark {
 
     public void setUpSets(int containsPerRep, int collisionPercents, int deep) {
         if (collisionPercents == 0 || deep == 0) {
-            if (collisionPercents == 0 && deep != 0) {
-                log.warn("Collision percents == 0, but deep!=0. set deep = 0 automatically.");
-            }
-            if (collisionPercents != 0 && deep == 0) {
-                log.warn("Collision deep == 0, but collisions!=0. set collisions = 0 automatically.");
-            }
             collisionPercents = 0;
             deep = 0;
         }
@@ -104,7 +95,7 @@ public class HashSetBenchmark {
 
         Collections.shuffle(tempList, new Random());
 
-        for (HashObject obj : tempList){
+        for (HashObject obj : tempList) {
             javaHashSet.add(obj);
             scalaHashSet.add(obj);
             newHashSet.add(obj);
@@ -112,7 +103,7 @@ public class HashSetBenchmark {
 
         Collections.shuffle(control, new Random());
 
-        log.debug(String.format("Unique hashcode objects: %s\n Not unique hashcode objects", uniqueCount, unUniqueCount));
-        log.debug(String.format("Control set size %s", control.size()));
+        log.debug(String.format("Unique hashcode objects: %d\n Not unique hashcode objects: %d", uniqueCount, unUniqueCount));
+        log.debug(String.format("Control set size %d", control.size()));
     }
 }
