@@ -93,7 +93,7 @@ public class HashSetBenchmark {
             }
         }
 
-        Collections.shuffle(tempList, new Random());
+        Collections.shuffle(tempList, new Random(containsPerRep));
 
         for (HashObject obj : tempList) {
             javaHashSet.add(obj);
@@ -101,7 +101,7 @@ public class HashSetBenchmark {
             newHashSet.add(obj);
         }
 
-        Collections.shuffle(control, new Random());
+        Collections.shuffle(control, new Random(containsPerRep));
 
         log.debug(String.format("Unique hashcode objects: %d\n Not unique hashcode objects: %d", uniqueCount, unUniqueCount));
         log.debug(String.format("Control set size %d", control.size()));
