@@ -97,7 +97,7 @@ public class HashSetBenchmark extends Benchmark {
             }
         }
         
-        Collections.shuffle(tempList, new Random());
+        Collections.shuffle(tempList, new Random(containsPerRep));
         
         for (HashObject obj : tempList){
             javaSet.add(obj);
@@ -105,7 +105,7 @@ public class HashSetBenchmark extends Benchmark {
             newHashSet.add(obj);    
         }
 
-        Collections.shuffle(control, new Random());
+        Collections.shuffle(control, new Random(containsPerRep));
 
     }
 }

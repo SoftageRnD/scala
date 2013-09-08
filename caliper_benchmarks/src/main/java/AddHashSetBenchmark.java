@@ -14,32 +14,31 @@ import java.util.*;
  */
 public class AddHashSetBenchmark extends HashSetBenchmark {
     private static final Logger log = LoggerFactory.getLogger(AddHashSetBenchmark.class);
-    @Param({"100000"})//,"50000", "100000" , "500000" , "1000000" })//
+    @Param({"1000000"})//,"50000", "100000" , "500000" , "1000000" })//
     public int containsPerRep;
 
     @Param({"20"})
     public int collisionPercents;
 
-    @Param({"0","2","20"})
+    @Param({"0", "2", "20"})
     public int deep;
 
     private List<Object> controlList = new ArrayList();
 
     public void setUp() {
-        super.setUp(containsPerRep,collisionPercents,deep);
+        super.setUp(containsPerRep, collisionPercents, deep);
 
         controlList.addAll(Arrays.asList(javaSet.toArray()));
-        Collections.shuffle(controlList, new Random());
+        Collections.shuffle(controlList, new Random(containsPerRep));
 
         scalaSet = new scala.collection.mutable.HashSet();
         newHashSet = new scala.collection.mutable.experimental.HashSet();
         javaSet = new HashSet<Object>();
     }
 
-    //ДОБАВЛЕНИЕ
     public void timeAddJava(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < controlList.size(); j++) {
+            for (int j = 0; j < 10000; j++) {
                 javaSet.add(controlList.get(j));
             }
         }
@@ -47,7 +46,7 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
 
     public void timeAddScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < controlList.size(); j++) {
+            for (int j = 0; j < 10000; j++) {
                 scalaSet.add(controlList.get(j));
             }
         }
@@ -55,7 +54,7 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
 
     public void timeAddNewHashSetScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < controlList.size(); j++) {
+            for (int j = 0; j < 10000; j++) {
                 newHashSet.add(controlList.get(j));
             }
         }

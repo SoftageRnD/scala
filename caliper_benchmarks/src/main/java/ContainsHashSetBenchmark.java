@@ -2,7 +2,7 @@ import com.google.caliper.Param;
 
 
 public class ContainsHashSetBenchmark extends HashSetBenchmark {
-    @Param({"100000"})//, "100", "500", "1000", "5000", "10000","50000", "100000" , "500000" , "1000000" })//
+    @Param({"1000000"})//, "100", "500", "1000", "5000", "10000","50000", "100000" , "500000" , "1000000" })//
     public int containsPerRep;
 
     @Param({"20"})
@@ -18,7 +18,7 @@ public class ContainsHashSetBenchmark extends HashSetBenchmark {
     //НАЛИЧИЕ
     public void timeContainsJava(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < control.size(); j++) {
+            for (int j = 0; j < 10000; j++) {
                 javaSet.contains(control.get(j));
             }
         }
@@ -26,7 +26,7 @@ public class ContainsHashSetBenchmark extends HashSetBenchmark {
 
     public void timeContainsScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < control.size(); j++) {
+            for (int j = 0; j < 10000; j++) {
                 scalaSet.contains(control.get(j));
             }
         }
@@ -34,7 +34,7 @@ public class ContainsHashSetBenchmark extends HashSetBenchmark {
 
     public void timeContainsNewHashSetScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < control.size(); j++) {
+            for (int j = 0; j < 10000; j++) {
                 newHashSet.contains(control.get(j));
             }
         }
