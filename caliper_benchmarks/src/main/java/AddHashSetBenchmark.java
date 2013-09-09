@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class AddHashSetBenchmark extends HashSetBenchmark {
     private static final Logger log = LoggerFactory.getLogger(AddHashSetBenchmark.class);
-    @Param({"1000000"})//,"50000", "100000" , "500000" , "1000000" })//
+    @Param({"100000"})//,"50000", "100000" , "500000" , "1000000" })//
     public int containsPerRep;
 
     @Param({"20"})
@@ -28,6 +28,7 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
     public void setUp() {
         super.setUp(containsPerRep, collisionPercents, deep);
 
+        controlList.clear();
         controlList.addAll(Arrays.asList(javaSet.toArray()));
         Collections.shuffle(controlList, new Random(containsPerRep));
 
@@ -38,7 +39,7 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
 
     public void timeAddJava(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < 10000; j++) {
+            for (int j = 0; j < controlList.size(); j++) {
                 javaSet.add(controlList.get(j));
             }
         }
@@ -46,7 +47,7 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
 
     public void timeAddScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < 10000; j++) {
+            for (int j = 0; j < controlList.size(); j++) {
                 scalaSet.add(controlList.get(j));
             }
         }
@@ -54,7 +55,7 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
 
     public void timeAddNewHashSetScala(int reps) {
         for (int i = 0; i < reps; i++) {
-            for (int j = 0; j < 10000; j++) {
+            for (int j = 0; j < controlList.size(); j++) {
                 newHashSet.add(controlList.get(j));
             }
         }
