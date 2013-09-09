@@ -235,7 +235,7 @@ object HashSet extends MutableSetFactory[HashSet] {
   override def empty[A]: HashSet[A] = new HashSet[A]
 
   private def createBucket[A](firstElem: AnyRef, secondElem: AnyRef): Bucket = {
-    new Bucket(immutable.TreeSet(firstElem, secondElem)(implicit val ordering: new Ordering[AnyRef] { def compare(a: AnyRef, b: AnyRef) = b.## compare a.## }))
+    new Bucket(immutable.TreeSet(firstElem, secondElem)(implicit ordering: Ordering[AnyRef] =  new Ordering[AnyRef] { def compare(a: AnyRef, b: AnyRef) = b.## compare a.## }))
   }
 
   private class Bucket(var set: Set[AnyRef]) {
