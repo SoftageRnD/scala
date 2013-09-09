@@ -235,7 +235,7 @@ object HashSet extends MutableSetFactory[HashSet] {
   override def empty[A]: HashSet[A] = new HashSet[A]
 
   private def createBucket[A](firstElem: AnyRef, secondElem: AnyRef): Bucket = {
-    new Bucket(collection.SortedSet(firstElem, secondElem)(new Ordering[AnyRef] { def compare(a: AnyRef, b: AnyRef) = b.## compare a.## }))
+    new Bucket(immutable.TreeSet(firstElem, secondElem)(Ordering.by(_.##))
   }
 
   private class Bucket(var set: Set[AnyRef]) {
@@ -245,12 +245,12 @@ object HashSet extends MutableSetFactory[HashSet] {
      */
     def add(elem: AnyRef): Boolean = {
       val elementAlreadyExisted = set.contains(elem)
-      set + elem
+      set = set + elem
       elementAlreadyExisted
     }
 
     def addWithoutCheck(elem: AnyRef) {
-      set + elem
+      set = set + elem
     }
 
     def contains(elem: AnyRef): Boolean = set.contains(elem)
@@ -258,7 +258,7 @@ object HashSet extends MutableSetFactory[HashSet] {
     def remove(elem: AnyRef): Boolean = {
       val alreadyExisted = set.contains(elem)
       if (alreadyExisted)
-        set - elem
+        set = set - elem
       alreadyExisted
     }
 
