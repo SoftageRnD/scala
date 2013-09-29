@@ -47,8 +47,12 @@ def runTest(class_name):
                                       m.group(7), m.group(8), m.group(9)))
 
 
+os.system("ant")
 os.system("mvn install:install-file -Dfile=./build/pack/lib/scala-library.jar -DgroupId=com.softage " +
           "-DartifactId=scala-library -Dversion=2.11.SNAPSHOT -Dpackaging=jar")
+os.chdir("./memory-usage-benchmarks")
+os.system("mvn -U clean install")
+os.chdir("..")
 
 memory_usage_doc = getDOMImplementation().createDocument(None, "memory-usage", None)
 
