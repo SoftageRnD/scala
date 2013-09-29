@@ -8,6 +8,7 @@ from datetime import datetime
 
 JAVA_HPROF_FILE_NAME = "java.hprof.txt"
 
+
 def create_site(rank, percent_self, percent_accum, live_bytes, live_objs, allocated_bytes, allocated_objs, stack_trace,
                 class_name):
     site = memory_usage_doc.createElement("site")
