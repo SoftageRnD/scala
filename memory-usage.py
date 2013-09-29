@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 __author__ = 's.novgorodcev'
 import os
 import re
