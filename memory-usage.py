@@ -4,6 +4,7 @@ import re
 from xml.dom.minidom import getDOMImplementation
 from datetime import datetime
 
+JAVA_HPROF_FILE_NAME = "java.hprof.txt"
 
 def create_site(rank, percent_self, percent_accum, live_bytes, live_objs, allocated_bytes, allocated_objs, stack_trace,
                 class_name):
@@ -36,7 +37,7 @@ def runTest(class_name):
     sites = memory_usage_doc.createElement("sites")
     test.appendChild(sites)
 
-    f = open('memory-usage-benchmarks/java.hprof.txt', 'r')
+    f = open(JAVA_HPROF_FILE_NAME, 'r')
     m = re.search(r'\b\s*rank\s*self\s*accum\s*bytes\s*objs\s*bytes\s*objs\s*trace\s*name\b(.+)\bSITES END\b', f.read(),
                   re.DOTALL)
     table = m.group(1)
@@ -60,6 +61,8 @@ runTest("ManyOldMutableSets")
 runTest("ManyNewMutableSets")
 runTest("BigOldMutableSet")
 runTest("BigNewMutableSet")
+
+os.remove(JAVA_HPROF_FILE_NAME)
 
 with open("memory-usage-output.xml", "w") as f:
     f.write(memory_usage_doc.toprettyxml())
