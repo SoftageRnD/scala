@@ -15,7 +15,6 @@ public class ContainsHashSetBenchmark extends HashSetBenchmark {
         super.setUp(containsPerRep, collisionPercents, deep);
     }
 
-    //НАЛИЧИЕ
     public void timeContainsJava(int reps) {
         for (int i = 0; i < reps; i++) {
             for (int j = 0; j < 10000; j++) {

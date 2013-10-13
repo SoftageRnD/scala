@@ -6,11 +6,8 @@ import java.util.*;
 
 
 /**
- * Created with IntelliJ IDEA.
  * User: alex42rus
  * Date: 6/22/13
- * Time: 6:59 PM
- * To change this template use File | Settings | File Templates.
  */
 public class AddHashSetBenchmark extends HashSetBenchmark {
     private static final Logger log = LoggerFactory.getLogger(AddHashSetBenchmark.class);
@@ -37,7 +34,7 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
         javaSet = new HashSet<Object>();
     }
 
-    public void addJava(int reps) {
+    public void timeAddJava(int reps) {
         for (int i = 0; i < reps; i++) {
             for (int j = 0; j < controlList.size(); j++) {
                 javaSet.add(controlList.get(j));
@@ -45,7 +42,7 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
         }
     }
 
-    public void addScala(int reps) {
+    public void timeAddScala(int reps) {
         for (int i = 0; i < reps; i++) {
             for (int j = 0; j < controlList.size(); j++) {
                 scalaSet.add(controlList.get(j));
@@ -53,7 +50,7 @@ public class AddHashSetBenchmark extends HashSetBenchmark {
         }
     }
 
-    public void addNewScala(int reps) {
+    public void timeAddNewScala(int reps) {
         for (int i = 0; i < reps; i++) {
             for (int j = 0; j < controlList.size(); j++) {
                 newHashSet.add(controlList.get(j));
