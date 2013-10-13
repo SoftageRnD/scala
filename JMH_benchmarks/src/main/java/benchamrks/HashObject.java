@@ -13,6 +13,10 @@ public class HashObject {
     private Integer integer;
     private String uuid = UUID.randomUUID().toString();
 
+    public HashObject(Integer integer, String uuid) {
+        this.integer = integer;
+    }
+
     public HashObject(Integer integer) {
         this.integer = integer;
     }
