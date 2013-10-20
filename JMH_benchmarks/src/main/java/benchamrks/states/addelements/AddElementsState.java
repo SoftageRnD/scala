@@ -14,7 +14,7 @@ public class AddElementsState extends HashSetBenchmark {
         super.setUp(containsPerRep, collisionPercents, deep);
 
         controlList.addAll(Arrays.asList(javaHashSet.toArray()));
-        Collections.shuffle(controlList, new Random(new Long(containsPerRep)));
+        Collections.shuffle(controlList, new Random());//new Long(containsPerRep)
 
 
         scalaHashSet = new scala.collection.mutable.HashSet();

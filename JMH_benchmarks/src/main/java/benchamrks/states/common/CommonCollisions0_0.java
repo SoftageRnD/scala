@@ -15,6 +15,5 @@ public class CommonCollisions0_0 extends HashSetBenchmark {
     @Setup(Level.Trial)
     public void up() {
         setUp(1000000, 0, 0);
-
     }
 }
