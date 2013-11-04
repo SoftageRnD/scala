@@ -16,7 +16,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addJava0_0(BlackHole bl, AddElementsCollisions0_0 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
@@ -27,7 +27,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addScala0_0(BlackHole bl, AddElementsCollisions0_0 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
@@ -38,7 +38,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addNewScala0_0(BlackHole bl, AddElementsCollisions0_0 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
@@ -50,7 +50,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addJava20_2(BlackHole bl, AddElementsCollisions20_2 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
@@ -61,7 +61,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addScala20_2(BlackHole bl, AddElementsCollisions20_2 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
@@ -72,7 +72,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addNewScala20_2(BlackHole bl, AddElementsCollisions20_2 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
@@ -83,7 +83,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addJava20_16(BlackHole bl, AddElementsCollisions20_16 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
@@ -94,7 +94,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addScala20_16(BlackHole bl, AddElementsCollisions20_16 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
@@ -105,7 +105,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addNewScala20_16(BlackHole bl, AddElementsCollisions20_16 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
@@ -117,7 +117,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addJava100_16(BlackHole bl, AddElementsCollisions100_16 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
@@ -128,7 +128,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addScala100_16(BlackHole bl, AddElementsCollisions100_16 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
@@ -139,7 +139,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addNewScala100_16(BlackHole bl, AddElementsCollisions100_16 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
@@ -150,7 +150,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addJava100_2(BlackHole bl, AddElementsCollisions100_2 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
@@ -161,7 +161,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addScala100_2(BlackHole bl, AddElementsCollisions100_2 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
@@ -172,7 +172,7 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(20)
+    @Fork(10)
 
     public void addNewScala100_2(BlackHole bl, AddElementsCollisions100_2 state) {
         for (int i = 0; i < state.controlList.size(); i++) {
