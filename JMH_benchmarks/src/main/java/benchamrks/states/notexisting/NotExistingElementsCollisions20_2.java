@@ -1,6 +1,6 @@
 package benchamrks.states.notexisting;
 
-import benchamrks.states.HashSetBenchmark;
+import benchamrks.states.StateProperties;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
@@ -15,7 +15,7 @@ public class NotExistingElementsCollisions20_2 extends NotExistingElementsState 
 
     @Setup(Level.Trial)
     public void up() {
-        setUp(1000000, 20, 2);
+        setUp(StateProperties.elementsCount, 20, 2);
 
     }
 
