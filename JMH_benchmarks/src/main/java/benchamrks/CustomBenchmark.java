@@ -17,7 +17,7 @@ public class CustomBenchmark  {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @OperationsPerInvocation(value = StateProperties.operationPerInvocationForCustom)
+    @OperationsPerInvocation(value = 10000)
     public void containsNewScala100_16(BlackHole bl, NotExistingElementsCollisions100_16 hashSetBenchmark) {
         for (int i = 0; i < hashSetBenchmark.control.size(); i++) {
             bl.consume(hashSetBenchmark.newHashSet.contains(hashSetBenchmark.control.get(i)));
@@ -26,7 +26,7 @@ public class CustomBenchmark  {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @OperationsPerInvocation(value = StateProperties.operationPerInvocationForCustom)
+    @OperationsPerInvocation(value = 10000)
     public void containsScala100_16(BlackHole bl, NotExistingElementsCollisions100_16 hashSetBenchmark) {
         for (int i = 0; i < hashSetBenchmark.control.size(); i++) {
             bl.consume(hashSetBenchmark.scalaHashSet.contains(hashSetBenchmark.control.get(i)));
@@ -35,7 +35,7 @@ public class CustomBenchmark  {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @OperationsPerInvocation(value = StateProperties.operationPerInvocationForCustom)
+    @OperationsPerInvocation(value = 10000)
     public void containsJava100_16(BlackHole bl, NotExistingElementsCollisions100_16 hashSetBenchmark) {
         for (int i = 0; i < hashSetBenchmark.control.size(); i++) {
             bl.consume(hashSetBenchmark.javaHashSet.contains(hashSetBenchmark.control.get(i)));
