@@ -1,6 +1,6 @@
 package benchamrks.states.addelements;
 
-import benchamrks.states.notexisting.NotExistingElementsState;
+import benchamrks.states.StateProperties;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
@@ -15,7 +15,7 @@ public class AddElementsCollisions0_0 extends AddElementsState {
 
     @Setup(Level.Trial)
     public void up() {
-        setUp(1000000, 0, 0);
+        setUp(StateProperties.elementsCount, 0, 0);
 
     }
 }

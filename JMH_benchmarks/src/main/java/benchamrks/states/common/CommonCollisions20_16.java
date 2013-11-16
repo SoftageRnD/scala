@@ -1,6 +1,7 @@
 package benchamrks.states.common;
 
 import benchamrks.states.HashSetBenchmark;
+import benchamrks.states.StateProperties;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
@@ -14,7 +15,7 @@ import org.openjdk.jmh.annotations.State;
 public class CommonCollisions20_16 extends HashSetBenchmark {
     @Setup(Level.Trial)
     public void up() {
-        setUp(1000000, 20, 16);
+        setUp(StateProperties.elementsCount, 20, 16);
 
     }
 

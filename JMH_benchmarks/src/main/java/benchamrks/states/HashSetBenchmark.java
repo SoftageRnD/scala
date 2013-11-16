@@ -30,6 +30,8 @@ public class HashSetBenchmark {
     public final List<Object> controlList = new ArrayList();
 
     public void setUp(int containsPerRep, int collisionPercents, int deep) {
+        log.debug("=======SETUP STARTED======");
+
         if (collisionPercents > 100 || collisionPercents < 0) {
             log.error("Collision must be between 0 and 100");
             throw new RuntimeException("Collision must be between 0 and 100");
@@ -93,7 +95,8 @@ public class HashSetBenchmark {
             }
         }
 
-        Collections.shuffle(tempList, new Random(containsPerRep));
+
+        Collections.shuffle(tempList, new Random());//containsPerRep
 
         for (HashObject obj : tempList) {
             javaHashSet.add(obj);
@@ -101,7 +104,7 @@ public class HashSetBenchmark {
             newHashSet.add(obj);
         }
 
-        Collections.shuffle(control, new Random(containsPerRep));
+        Collections.shuffle(control, new Random());//containsPerRep
 
         log.debug(String.format("Unique hashcode objects: %d\n Not unique hashcode objects: %d", uniqueCount, unUniqueCount));
         log.debug(String.format("Control set size %d", control.size()));

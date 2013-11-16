@@ -6,6 +6,9 @@ import benchamrks.states.HashSetBenchmark;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class relocate object in control set for not ==, but with equals hashCode.
+ */
 public class NotExistingElementsState extends HashSetBenchmark {
 
     @Override
