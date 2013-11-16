@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BENCHMARK_LIST=('AddHashSetBenchmark' 'ContainsHashSetBenchmark' 'ContainsNotExistsElementBenchmark')
+BENCHMARK_LIST=('AddHashSetBenchmark' 'ContainsHashSetBenchmark')
 
 set -e
 ant
