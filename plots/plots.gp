@@ -1,3 +1,5 @@
+#!/usr/bin/gnuplot -persist
+
 set datafile separator ','
 set xrange [0:25]
 set term pngcairo dashed size 2048, 1536 
