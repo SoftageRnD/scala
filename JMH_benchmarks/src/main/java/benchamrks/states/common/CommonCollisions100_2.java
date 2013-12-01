@@ -1,6 +1,7 @@
 package benchamrks.states.common;
 
-import benchamrks.states.HashSetBenchmark;
+import benchamrks.states.HashSetBenchmarkState;
+import benchamrks.states.HashSetProbabilityState;
 import benchamrks.states.StateProperties;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Setup;
@@ -12,7 +13,7 @@ import org.openjdk.jmh.annotations.State;
  * 2 - collision deep
  */
 @State
-public class CommonCollisions100_2 extends HashSetBenchmark {
+public class CommonCollisions100_2 extends HashSetProbabilityState {
 
     @Setup(Level.Trial)
     public void up() {

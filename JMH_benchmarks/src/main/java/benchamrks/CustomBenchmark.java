@@ -1,7 +1,7 @@
 package benchamrks;
 
 import benchamrks.states.StateProperties;
-import benchamrks.states.notexisting.NotExistingElementsCollisions100_16;
+import benchamrks.states.notexisting.NotExistingElementsCollisions20_16;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.logic.BlackHole;
 
@@ -17,27 +17,27 @@ public class CustomBenchmark  {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @OperationsPerInvocation(value = 10000)
-    public void containsNewScala100_16(BlackHole bl, NotExistingElementsCollisions100_16 hashSetBenchmark) {
-        for (int i = 0; i < hashSetBenchmark.control.size(); i++) {
+    @OperationsPerInvocation(value = 1000)
+    public void containsNewScala20_16(BlackHole bl, NotExistingElementsCollisions20_16 hashSetBenchmark) {
+        for (int i = 0; i < 1000; i++) {
             bl.consume(hashSetBenchmark.newHashSet.contains(hashSetBenchmark.control.get(i)));
         }
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @OperationsPerInvocation(value = 10000)
-    public void containsScala100_16(BlackHole bl, NotExistingElementsCollisions100_16 hashSetBenchmark) {
-        for (int i = 0; i < hashSetBenchmark.control.size(); i++) {
+    @OperationsPerInvocation(value = 1000)
+    public void containsScala20_16(BlackHole bl, NotExistingElementsCollisions20_16 hashSetBenchmark) {
+        for (int i = 0; i < 1000; i++) {
             bl.consume(hashSetBenchmark.scalaHashSet.contains(hashSetBenchmark.control.get(i)));
         }
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @OperationsPerInvocation(value = 10000)
-    public void containsJava100_16(BlackHole bl, NotExistingElementsCollisions100_16 hashSetBenchmark) {
-        for (int i = 0; i < hashSetBenchmark.control.size(); i++) {
+    @OperationsPerInvocation(value = 1000)
+    public void containsJava20_16(BlackHole bl, NotExistingElementsCollisions20_16 hashSetBenchmark) {
+        for (int i = 0; i < 1000; i++) {
             bl.consume(hashSetBenchmark.javaHashSet.contains(hashSetBenchmark.control.get(i)));
         }
     }

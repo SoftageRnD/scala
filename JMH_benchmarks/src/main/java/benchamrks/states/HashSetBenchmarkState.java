@@ -13,8 +13,8 @@ import java.util.*;
  * Time: 6:58 PM
  * To change this template use File | Settings | File Templates.
  */
-public class HashSetBenchmark {
-    private static final Logger log = LoggerFactory.getLogger(HashSetBenchmark.class);
+public class HashSetBenchmarkState {
+    private static final Logger log = LoggerFactory.getLogger(HashSetBenchmarkState.class);
 
     /**
      * the set under test

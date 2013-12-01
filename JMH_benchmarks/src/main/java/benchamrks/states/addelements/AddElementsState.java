@@ -1,13 +1,14 @@
 package benchamrks.states.addelements;
 
-import benchamrks.states.HashSetBenchmark;
+import benchamrks.states.HashSetBenchmarkState;
+import benchamrks.states.HashSetProbabilityState;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
 
-public class AddElementsState extends HashSetBenchmark {
+public class AddElementsState extends HashSetProbabilityState {
 
     @Override
     public void setUp(int containsPerRep, int collisionPercents, int deep) {
