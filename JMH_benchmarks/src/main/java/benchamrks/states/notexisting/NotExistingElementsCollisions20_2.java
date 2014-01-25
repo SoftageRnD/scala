@@ -2,6 +2,7 @@ package benchamrks.states.notexisting;
 
 import benchamrks.states.StateProperties;
 import org.openjdk.jmh.annotations.Level;
+import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
 
@@ -10,7 +11,7 @@ import org.openjdk.jmh.annotations.State;
  * 20 - percents collision
  * 2 - collision deep
  */
-@State
+@State(Scope.Thread)
 public class NotExistingElementsCollisions20_2 extends NotExistingElementsState {
 
     @Setup(Level.Trial)
