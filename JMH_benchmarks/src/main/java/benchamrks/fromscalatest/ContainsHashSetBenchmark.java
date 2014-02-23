@@ -1,0 +1,172 @@
+package benchamrks.fromscalatest;
+
+import benchamrks.fromscalatest.states.AddHashSetBenchmarkState;
+import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.logic.BlackHole;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
+public class ContainsHashSetBenchmark {
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsScala1H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsScala(bl, state, 100000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsScala2H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsScala(bl, state, 200000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsScala3H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsScala(bl, state, 300000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsScala4H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsScala(bl, state, 400000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsScala5H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsScala(bl, state, 500000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsScala6H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsScala(bl, state, 600000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsScala7H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsScala(bl, state, 700000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsScala8H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsScala(bl, state, 800000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsScala9H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsScala(bl, state, 900000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsScala10H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsScala(bl, state, 1000000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsNewScala1H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsNewScala(bl, state, 100000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsNewScala2H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsNewScala(bl, state, 200000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsNewScala3H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsNewScala(bl, state, 300000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsNewScala4H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsNewScala(bl, state, 400000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsNewScala5H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsNewScala(bl, state, 500000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsNewScala6H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsNewScala(bl, state, 600000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsNewScala7H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsNewScala(bl, state, 700000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsNewScala8H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsNewScala(bl, state, 800000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsNewScala9H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsNewScala(bl, state, 900000);
+    }
+
+    @GenerateMicroBenchmark
+    @BenchmarkMode(Mode.AverageTime)
+    @Fork(1)
+    public void containsNewScala10H(BlackHole bl, AddHashSetBenchmarkState state) {
+        containsNewScala(bl, state, 1000000);
+    }
+
+    private void containsScala(BlackHole bl, AddHashSetBenchmarkState state, int size) {
+        List<Integer> values = state.valuesMap.get(size);
+        List<Boolean> results = new ArrayList<Boolean>(values.size());
+        for (Integer value : values) {
+            results.add(state.scalaHashSet.contains(value));
+        }
+        bl.consume(results);
+    }
+
+    private void containsNewScala(BlackHole bl, AddHashSetBenchmarkState state, int size) {
+        List<Integer> values = state.valuesMap.get(size);
+        List<Boolean> results = new ArrayList<Boolean>(values.size());
+        for (Integer value : values) {
+            state.newHashSet.add(value);
+        }
+        bl.consume(results);
+    }
+
+}
