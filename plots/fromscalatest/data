@@ -1,0 +1,21 @@
+Benchmark,Size,Mode,Thr,Cnt,Sec,Mean,Mean error,Units
+b.f.AddHashSetBenchmark.addScala1H,100000,avgt,1,5,5,1.854,0.005,msec/op
+b.f.AddHashSetBenchmark.addScala2H,200000,avgt,1,5,5,6.246,0.019,msec/op
+b.f.AddHashSetBenchmark.addScala3H,300000,avgt,1,5,5,10.905,0.013,msec/op
+b.f.AddHashSetBenchmark.addScala4H,400000,avgt,1,5,5,16.401,0.003,msec/op
+b.f.AddHashSetBenchmark.addScala5H,500000,avgt,1,5,5,19.321,0.025,msec/op
+b.f.AddHashSetBenchmark.addScala6H,600000,avgt,1,5,5,24.397,0.033,msec/op
+b.f.AddHashSetBenchmark.addScala7H,700000,avgt,1,5,5,30.383,0.060,msec/op
+b.f.AddHashSetBenchmark.addScala8H,800000,avgt,1,5,5,40.706,0.169,msec/op
+b.f.AddHashSetBenchmark.addScala9H,900000,avgt,1,5,5,48.777,0.102,msec/op
+b.f.AddHashSetBenchmark.addScala10H,1000000,avgt,1,5,5,45.878,0.202,msec/op
+b.f.AddHashSetBenchmark.addNewScala1H,100000,avgt,1,5,5,7.186,0.007,msec/op
+b.f.AddHashSetBenchmark.addNewScala2H,200000,avgt,1,5,5,19.361,0.044,msec/op
+b.f.AddHashSetBenchmark.addNewScala3H,300000,avgt,1,5,5,36.257,0.033,msec/op
+b.f.AddHashSetBenchmark.addNewScala4H,400000,avgt,1,5,5,42.517,0.053,msec/op
+b.f.AddHashSetBenchmark.addNewScala5H,500000,avgt,1,5,5,59.555,0.101,msec/op
+b.f.AddHashSetBenchmark.addNewScala6H,600000,avgt,1,5,5,74.600,0.095,msec/op
+b.f.AddHashSetBenchmark.addNewScala7H,700000,avgt,1,5,5,103.641,0.085,msec/op
+b.f.AddHashSetBenchmark.addNewScala8H,800000,avgt,1,5,5,91.407,0.169,msec/op
+b.f.AddHashSetBenchmark.addNewScala9H,900000,avgt,1,5,5,108.721,0.185,msec/op
+b.f.AddHashSetBenchmark.addNewScala10H,1000000,avgt,1,5,5,126.899,0.271,msec/op
