@@ -10,9 +10,9 @@ import java.util.*;
 
 @State(Scope.Thread)
 public class HashSetBenchmarkState {
-    private static final int START_SIZE = 3000000;
-    private static final int END_SIZE = 15000000;
-    private static final int STEP = 1000000;
+    private static final int START_SIZE = 100000;
+    private static final int END_SIZE = 1000000;
+    private static final int STEP = 100000;
 
     public Map<Integer, List<Integer>> valuesMap = new HashMap<>((END_SIZE - START_SIZE) / STEP + 1);
 
