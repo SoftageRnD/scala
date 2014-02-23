@@ -11,12 +11,12 @@ public class AddHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(10)
+    @Fork(1)
     public void addScala3M(BlackHole bl, HashSetBenchmarkState state) {
         addScala(bl, state, 3000000);
     }
 
-    @GenerateMicroBenchmark
+    /*@GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
     @Fork(10)
     public void addScala4M(BlackHole bl, HashSetBenchmarkState state) {
@@ -182,7 +182,7 @@ public class AddHashSetBenchmark {
     @Fork(10)
     public void addNewScala15M(BlackHole bl, HashSetBenchmarkState state) {
         addNewScala(bl, state, 15000000);
-    }
+    }*/
 
     private void addScala(BlackHole bl, HashSetBenchmarkState state, int size) {
         for (Integer value : state.valuesMap.get(size)) {

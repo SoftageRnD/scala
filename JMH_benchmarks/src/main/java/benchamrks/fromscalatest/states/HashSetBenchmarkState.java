@@ -14,7 +14,7 @@ public class HashSetBenchmarkState {
     private static final int END_SIZE = 15000000;
     private static final int STEP = 1000000;
 
-    public Map<Integer, List<Integer>> valuesMap = new HashMap<>((START_SIZE - END_SIZE) / STEP + 1);
+    public Map<Integer, List<Integer>> valuesMap = new HashMap<>((END_SIZE - START_SIZE) / STEP + 1);
 
     public scala.collection.mutable.HashSet<Integer> scalaHashSet = new scala.collection.mutable.HashSet<>();
 
