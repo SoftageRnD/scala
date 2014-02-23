@@ -14,11 +14,13 @@ public class HashSetBenchmarkState {
     private static final int END_SIZE = 1000000;
     private static final int STEP = 100000;
 
-    public Map<Integer, List<Integer>> valuesMap = new HashMap<>((END_SIZE - START_SIZE) / STEP + 1);
+    public Map<Integer, List<Integer>> valuesMap =
+            new HashMap<Integer, List<Integer>>((END_SIZE - START_SIZE) / STEP + 1);
 
-    public scala.collection.mutable.HashSet<Integer> scalaHashSet = new scala.collection.mutable.HashSet<>();
+    public scala.collection.mutable.HashSet<Integer> scalaHashSet = new scala.collection.mutable.HashSet<Integer>();
 
-    public scala.collection.mutable.experimental.HashSet<Integer> newHashSet = new scala.collection.mutable.experimental.HashSet<>();
+    public scala.collection.mutable.experimental.HashSet<Integer> newHashSet =
+            new scala.collection.mutable.experimental.HashSet<Integer>();
 
     @Setup(Level.Trial)
     public void setUp() {
@@ -28,7 +30,7 @@ public class HashSetBenchmarkState {
     }
 
     private List<Integer> generateValues(int size) {
-        List<Integer> values = new ArrayList<>(size);
+        List<Integer> values = new ArrayList<Integer>(size);
         Random rand = new Random();
         for (int i = 0; i < size; i++) {
             values.add(rand.nextInt());
