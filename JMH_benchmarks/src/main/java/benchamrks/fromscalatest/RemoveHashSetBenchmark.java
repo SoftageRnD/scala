@@ -14,140 +14,140 @@ public class RemoveHashSetBenchmark {
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeScala1H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeScala(bl, state, 100000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeScala2H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeScala(bl, state, 200000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeScala3H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeScala(bl, state, 300000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeScala4H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeScala(bl, state, 400000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeScala5H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeScala(bl, state, 500000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeScala6H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeScala(bl, state, 600000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeScala7H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeScala(bl, state, 700000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeScala8H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeScala(bl, state, 800000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeScala9H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeScala(bl, state, 900000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeScala10H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeScala(bl, state, 1000000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeNewScala1H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeNewScala(bl, state, 100000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeNewScala2H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeNewScala(bl, state, 200000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeNewScala3H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeNewScala(bl, state, 300000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeNewScala4H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeNewScala(bl, state, 400000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeNewScala5H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeNewScala(bl, state, 500000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeNewScala6H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeNewScala(bl, state, 600000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeNewScala7H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeNewScala(bl, state, 700000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeNewScala8H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeNewScala(bl, state, 800000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeNewScala9H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeNewScala(bl, state, 900000);
     }
 
     @GenerateMicroBenchmark
     @BenchmarkMode(Mode.AverageTime)
-    @Fork(1)
+    @Fork(10)
     public void removeNewScala10H(BlackHole bl, RemoveHashSetBenchmarkState state) {
         removeNewScala(bl, state, 1000000);
     }
